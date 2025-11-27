@@ -8,6 +8,7 @@ export const pool = mysql.createPool({
   user: process.env.DB_USER,
   password: process.env.DB_PASS,
   database: process.env.DB_NAME,
+  port: process.env.DB_PORT || 3306, // Asegúrate que tome el puerto de .env o 3306 por defecto
   waitForConnections: true,
   connectionLimit: 10,
 });
