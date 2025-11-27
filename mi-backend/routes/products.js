@@ -6,7 +6,7 @@ export default (pool) => {
   // 📌 Obtener todos los productos
   router.get("/", async (req, res) => {
     try {
-      const [rows] = await pool.query("SELECT * FROM productos");
+      const [rows] = await pool.query("SELECT id, nombre, descripcion, precio, stock FROM productos");
       res.json(rows);
     } catch (error) {
       console.error(error);
@@ -18,6 +18,11 @@ export default (pool) => {
   router.post("/", async (req, res) => {
     try {
       const { nombre, descripcion, precio, stock } = req.body;
+
+      // Validaciones básicas (opcional)
+      if (!nombre || precio === undefined) {
+        return res.status(400).json({ message: "Faltan campos obligatorios: nombre y precio" });
+      }
 
       const [result] = await pool.query(
         "INSERT INTO productos (nombre, descripcion, precio, stock) VALUES (?, ?, ?, ?)",
